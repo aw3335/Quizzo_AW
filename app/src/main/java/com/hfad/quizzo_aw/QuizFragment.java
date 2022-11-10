@@ -29,6 +29,7 @@ public class QuizFragment extends Fragment {
     int questionNum = 0;
     Boolean isPressed = true;
     String selectedAnswer = "";
+    int count = 0;
     int counter = 0;
     ArrayList<String> answers = new ArrayList<String>();
 
@@ -46,26 +47,32 @@ public class QuizFragment extends Fragment {
         RadioButton radia2 = view.findViewById(R.id.radia2);
         RadioButton radia3 = view.findViewById(R.id.radia3);
         RadioButton radia4 = view.findViewById(R.id.radia4);
+        RadioButton radia5 = view.findViewById(R.id.radia5);
+        RadioButton radia6 = view.findViewById(R.id.radia6);
         Button btnSubmit = view.findViewById(R.id.buttonSubmit);
         String chosenGenre = QuizFragmentArgs.fromBundle(requireArguments()).getChoice();
 
         ArrayList<Question> questions = getQuestions();
+        ArrayList<Question> genreQuestions = new ArrayList<Question>();
 
 
         System.out.println("Recieved Questions");
-        System.out.println(questions.get(1).getGenre());
+        System.out.println(chosenGenre);
+
 
         for(int i = 0; i < questions.size();i++)
         {
             if(questions.get(i).getGenre().equals(chosenGenre))
             {
+                System.out.println(questions.get(i).getGenre() + " +");
                 counter++;
+                genreQuestions.add(questions.get(i));
             }
         }
 
         isPressed = false;
 
-        questionsCalled(chosenGenre, questions, radia1, radia2, radia3, radia4, tvNum, tvQuest);
+        questionsCalled(chosenGenre, genreQuestions, radia1, radia2, radia3, radia4,radia5, radia6, tvNum, tvQuest);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,25 +94,34 @@ public class QuizFragment extends Fragment {
                 {
                     selectedAnswer = radia4.getText().toString();
                 }
+                if(radia5.isChecked())
+                {
+                    selectedAnswer = radia5.getText().toString();
+                }
+                if(radia6.isChecked())
+                {
+                    selectedAnswer = radia6.getText().toString();
+                }
 
 
 
-                if(selectedAnswer.equals(questions.get(questionNum).getAnswer()))
+                if(selectedAnswer.equals(genreQuestions.get(questionNum).getAnswer()))
                 {
                     Toast.makeText(getActivity(),"Correct!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), genreQuestions.get(questionNum).getFollowUp(), Toast.LENGTH_LONG).show();
                     answers.add("Correct");
                 }
                 else
                 {
                     Toast.makeText(getActivity(),"Incorrect!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), genreQuestions.get(questionNum).getFollowUp(), Toast.LENGTH_LONG).show();
                     answers.add("Incorrect");
                 }
-                System.out.println(selectedAnswer + questions.get(questionNum).getAnswer());
+                System.out.println("Test" + selectedAnswer + questions.get(questionNum).getAnswer());
                 questionNum += 1;
                 isPressed = true;
-
                 System.out.println(questionNum + "" + counter);
-                if(questionNum == counter)
+                if(questionNum == counter || questionNum == 0)
                 {
                     QuizFragmentDirections.ActionQuizFragmentToScoreFragment action =
                             QuizFragmentDirections.actionQuizFragmentToScoreFragment(answers.toArray(new String[answers.size()]));
@@ -113,7 +129,8 @@ public class QuizFragment extends Fragment {
                     Navigation.findNavController(v).navigate(action);
                 }
                 else {
-                    questionsCalled(chosenGenre, questions, radia1, radia2, radia3, radia4, tvNum, tvQuest);
+
+                    questionsCalled(chosenGenre, genreQuestions, radia1, radia2, radia3, radia4,radia5, radia6, tvNum, tvQuest);
                 }
             }
         });
@@ -121,69 +138,96 @@ public class QuizFragment extends Fragment {
         return view;
     }
 
-    public void questionsCalled(String chosenGenre, ArrayList<Question> questions, RadioButton radia1, RadioButton radia2, RadioButton radia3, RadioButton radia4, TextView tvNum, TextView tvQuest)
+    public void questionsCalled(String theChosenGenre, ArrayList<Question> genreQuestions, RadioButton radia1, RadioButton radia2, RadioButton radia3, RadioButton radia4, RadioButton radia5, RadioButton radia6, TextView tvNum, TextView tvQuest)
     {
-        if(questions.get(questionNum).getGenre().equals(chosenGenre))
+        System.out.println(genreQuestions.get(questionNum).getGenre() + "-" + theChosenGenre);
+        tvNum.setText("Question #" + (questionNum + 1));
+        tvQuest.setText(genreQuestions.get(questionNum).getQuestion());
+        for(int i = 0; i < genreQuestions.get(questionNum).getChoices().size(); i++)
         {
-            tvNum.setText("Question #" + (questionNum));
-            tvQuest.setText(questions.get(questionNum).getQuestion());
-            for(int i = 0; i < questions.get(questionNum).getChoices().size(); i++)
-            {
-                if(!questions.get(questionNum).getChoices().get(i).equals("")) {
-                    if(i == 0)
-                    {
-                        if(questions.get(questionNum).getChoices().get(0).isEmpty())
-                        {
-                            radia1.setEnabled(false);
-                            radia1.setText("");
-                        }
-                        else {
-                            radia1.setEnabled(true);
-                            radia1.setText(questions.get(questionNum).getChoices().get(0));
-                        }
-                    }
-                    if(i == 1)
-                    {
-                        if(questions.get(questionNum).getChoices().get(1).isEmpty())
-                        {
-                            radia2.setEnabled(false);
-                            radia2.setText("");
-                        }
-                        else
-                        {
-                            radia2.setEnabled(true);
-                            radia2.setText(questions.get(questionNum).getChoices().get(1));
-                        }
-                    }
+            if(!genreQuestions.get(questionNum).getChoices().get(i).equals("")) {
+                if(i == 0)
+                {
+                    radia1.setEnabled(true);
+                    radia1.setText(genreQuestions.get(questionNum).getChoices().get(0));
+                    radia1.setVisibility(View.VISIBLE);
+                }
+                else if(i != 0 && i < 0)
+                {
+                    radia1.setEnabled(false);
+                    radia1.setText("");
+                    radia1.setVisibility(View.INVISIBLE);
+                }
 
-                    if(i == 2)
-                    {
-                        if(questions.get(questionNum).getChoices().get(2).isEmpty())
-                        {
-                            radia3.setEnabled(false);
-                            radia3.setText("");
-                        }
-                        else
-                        {
-                            radia3.setEnabled(true);
-                            radia3.setText(questions.get(questionNum).getChoices().get(2));
-                        }
-                    }
-                    if(i == 3)
-                    {
-                        if(questions.get(questionNum).getChoices().get(3).isEmpty())
-                        {
-                            radia4.setEnabled(false);
-                            radia4.setText("");
-                        }
-                        else
-                        {
-                            radia4.setEnabled(true);
-                            radia4.setText(questions.get(questionNum).getChoices().get(3));
-                        }
-                    }
+                if(i == 1)
+                {
+                    radia2.setEnabled(true);
+                    radia2.setText(genreQuestions.get(questionNum).getChoices().get(1));
+                    radia2.setVisibility(View.VISIBLE);
+                }
+                else if (i != 1 && i < 1)
+                {
+                    radia2.setEnabled(false);
+                    radia2.setText("");
+                    radia2.setVisibility(View.INVISIBLE);
+                }
+
+                if(i == 2)
+                {
+                    radia3.setEnabled(true);
+                    radia3.setText(genreQuestions.get(questionNum).getChoices().get(2));
+                    radia3.setVisibility(View.VISIBLE);
+                }
+                else if(i != 2 && i < 2)
+                {
+                    radia3.setEnabled(false);
+                    radia3.setText("");
+                    radia3.setVisibility(View.INVISIBLE);
+                }
+                if(i == 3)
+                {
+                    radia4.setEnabled(true);
+                    radia4.setText(genreQuestions.get(questionNum).getChoices().get(3));
+                    radia4.setVisibility(View.VISIBLE);
+
+                }
+                else if(i != 3 && i < 3)
+                {
+                    radia4.setEnabled(false);
+                    radia4.setText("");
+                    radia4.setVisibility(View.INVISIBLE);
+                }
+
+                if(i == 4)
+                {
+                    radia5.setEnabled(true);
+                    radia5.setText(genreQuestions.get(questionNum).getChoices().get(4));
+                    radia5.setVisibility(View.VISIBLE);
+
+                }
+                else if(i != 4 && i < 4)
+                {
+                    radia5.setEnabled(false);
+                    radia5.setText("");
+                    radia5.setVisibility(View.INVISIBLE);
+                }
+                if(i == 5)
+                {
+                    radia6.setEnabled(true);
+                    radia6.setText(genreQuestions.get(questionNum).getChoices().get(5));
+                    radia6.setVisibility(View.VISIBLE);
+
+                }
+                else if(i != 5 && i < 5)
+                {
+                    radia6.setEnabled(false);
+                    radia6.setText("");
+                    radia6.setVisibility(View.INVISIBLE);
                 }
             }
         }
     }
+
 }
+
+

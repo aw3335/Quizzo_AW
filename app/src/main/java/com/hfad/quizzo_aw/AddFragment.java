@@ -132,14 +132,6 @@ public class AddFragment extends Fragment {
                 }
 
 
-
-
-                //ArrayList<String> genres = new ArrayList<String>();
-                //ArrayAdapter<String> adapter;
-                //view.getContext().getApplicationContext()
-                //adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_single_choice, genres);
-                //genres.add(adapter);
-
                 Navigation.findNavController(v).navigate(R.id.action_addFragment_to_addedFragment);
             }
         });

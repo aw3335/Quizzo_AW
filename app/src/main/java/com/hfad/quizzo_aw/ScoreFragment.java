@@ -39,7 +39,8 @@ public class ScoreFragment extends Fragment {
         }
 
         tvCorrect.setText("Number Correct: " + counter);
-        tvPercent.setText("Percentage: %" + (counter * 1.0 / answer.length) * 100);
+        String s = String.format("Percentage: %.2f", (counter * 1.0 / answer.length) * 100);
+        tvPercent.setText(s + "%");
 
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override

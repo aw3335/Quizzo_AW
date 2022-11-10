@@ -8,8 +8,12 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,17 +28,33 @@ public class WelcomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
 
+
         Button btnAdd = view.findViewById(R.id.buttonAdd);
         Button btnQuiz = view.findViewById(R.id.buttonPractice);
         Spinner spnGenre = view.findViewById(R.id.Genres);
 
+
+
+       /* List<String> genres = Database.getAllGenres();
+        if(!genres.isEmpty()) {
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_single_choice, genres);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spnGenre.setAdapter(adapter);
+        }*/
+
         btnQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*ArrayList<String> initializer = new ArrayList<String>();
+                initializer.add("");
+                Database.setData("", "", "",initializer, "");*/
 
+                String genre = spnGenre.getSelectedItem().toString();
                 WelcomeFragmentDirections.ActionWelcomeFragmentToQuizFragment action =
-                        WelcomeFragmentDirections.actionWelcomeFragmentToQuizFragment(spnGenre.getSelectedItem().toString());
+                        WelcomeFragmentDirections.actionWelcomeFragmentToQuizFragment(genre);
 
+                System.out.println(spnGenre.getSelectedItem().toString() + "Test");
                 Navigation.findNavController(v).navigate(action);
             }
         });

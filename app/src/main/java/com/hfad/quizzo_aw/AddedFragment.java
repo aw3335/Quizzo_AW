@@ -12,11 +12,10 @@ import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AddedFragment#newInstance} factory method to
+ * Use the {@link AddedFragment#} factory method to
  * create an instance of this fragment.
  */
 public class AddedFragment extends Fragment {
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

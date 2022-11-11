@@ -10,16 +10,13 @@ public class Database extends Question {
 
     public static ArrayList<Question> setData() {
         if (questions == null) {
-
             createData();
         }
-
         return questions;
     }
 
     private static void createData()
     {
-
         questions = new ArrayList<Question>();
 
         ArrayList<String> choices = new ArrayList<String>();
@@ -180,7 +177,6 @@ public class Database extends Question {
         choices.add("Novak Djokovic");
         questions.add(new Question("Sports", "Who has earned more Grand Slam single titles during the open era in tennis.", choices, "Serena Williams", "Serena and Her Sister Venus won 14 Grand Slam Doubles titles and three doubles gold medals at the Olympics."));
 
-
     }
 
     public static ArrayList<Question>getQuestions()
@@ -195,7 +191,7 @@ public class Database extends Question {
 
         for(int i = 0; i < questions.size(); i++)
         {
-            if(!questions.contains(questions.get(i).getGenre()))
+            if(!specificGenre.contains(questions.get(i).getGenre()))
             {
                 specificGenre.add(questions.get(i).getGenre());
             }
@@ -206,7 +202,6 @@ public class Database extends Question {
     public static ArrayList<Question> addNewQuestions(String genre, String question, ArrayList<String> choices, String answer, String followUp)
     {
         questions.add(new Question(genre, question, choices, answer, followUp));
-
         return questions;
     }
 

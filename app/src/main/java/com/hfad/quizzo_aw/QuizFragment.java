@@ -29,16 +29,19 @@ public class QuizFragment extends Fragment {
     int questionNum = 0;
     Boolean isPressed = true;
     String selectedAnswer = "";
-    int count = 0;
     int counter = 0;
     ArrayList<String> answers = new ArrayList<String>();
 
     public static final String QUESTIONNUM_KEY = "questionNum";
-
+    public static final String PRESSED_KEY = "isPressed";
+    public static final String SELECTEDANSWER_KEY = "selectedAnswer";
+    public static final String COUNTER_KEY = "counter";
+    public static final String ANSWERS_KEY = "answers";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_quiz, container, false);
 
@@ -57,20 +60,10 @@ public class QuizFragment extends Fragment {
         ArrayList<Question> questions = getQuestions();
         ArrayList<Question> genreQuestions = new ArrayList<Question>();
 
-        if(savedInstanceState != null)
-        {
-            questionNum = savedInstanceState.getInt(QUESTIONNUM_KEY);
-        }
-
-        System.out.println("Recieved Questions");
-        System.out.println(chosenGenre);
-
-
         for(int i = 0; i < questions.size();i++)
         {
             if(questions.get(i).getGenre().equals(chosenGenre))
             {
-                System.out.println(questions.get(i).getGenre() + " +");
                 counter++;
                 genreQuestions.add(questions.get(i));
             }
@@ -78,6 +71,13 @@ public class QuizFragment extends Fragment {
 
         isPressed = false;
 
+        if(savedInstanceState != null)
+        {
+            questionNum = savedInstanceState.getInt(QUESTIONNUM_KEY);
+            isPressed = savedInstanceState.getBoolean(PRESSED_KEY);
+            selectedAnswer = savedInstanceState.getString(SELECTEDANSWER_KEY);
+            answers = savedInstanceState.getStringArrayList(ANSWERS_KEY);
+        }
         questionsCalled(chosenGenre, genreQuestions, radia1, radia2, radia3, radia4,radia5, radia6, tvNum, tvQuest);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,6 @@ public class QuizFragment extends Fragment {
                 }
 
 
-
                 if(selectedAnswer.equals(genreQuestions.get(questionNum).getAnswer()))
                 {
                     Toast.makeText(getActivity(),"Correct!",Toast.LENGTH_SHORT).show();
@@ -123,10 +122,8 @@ public class QuizFragment extends Fragment {
                     Toast.makeText(getActivity(), genreQuestions.get(questionNum).getFollowUp(), Toast.LENGTH_LONG).show();
                     answers.add("Incorrect");
                 }
-                System.out.println("Test" + selectedAnswer + questions.get(questionNum).getAnswer());
                 questionNum += 1;
                 isPressed = true;
-                System.out.println(questionNum + "" + counter);
                 if(questionNum == counter || questionNum == 0)
                 {
                     QuizFragmentDirections.ActionQuizFragmentToScoreFragment action =
@@ -140,22 +137,11 @@ public class QuizFragment extends Fragment {
                 }
             }
         });
-
         return view;
-    }
-
-    protected void savedOnInstanceState(Bundle saveInstanceState)
-    {
-        super.onSaveInstanceState(saveInstanceState);
-
-        saveInstanceState.putInt(QUESTIONNUM_KEY, questionNum);
-
-
     }
 
     public void questionsCalled(String theChosenGenre, ArrayList<Question> genreQuestions, RadioButton radia1, RadioButton radia2, RadioButton radia3, RadioButton radia4, RadioButton radia5, RadioButton radia6, TextView tvNum, TextView tvQuest)
     {
-        System.out.println(genreQuestions.get(questionNum).getGenre() + "-" + theChosenGenre);
         tvNum.setText("Question #" + (questionNum + 1));
         tvQuest.setText(genreQuestions.get(questionNum).getQuestion());
         for(int i = 0; i < genreQuestions.get(questionNum).getChoices().size(); i++)
@@ -241,6 +227,18 @@ public class QuizFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle saveInstanceState)
+    {
+        super.onSaveInstanceState(saveInstanceState);
+        saveInstanceState.putInt(QUESTIONNUM_KEY, questionNum);
+        saveInstanceState.putBoolean(PRESSED_KEY, isPressed);
+        saveInstanceState.putString(SELECTEDANSWER_KEY, selectedAnswer);
+        saveInstanceState.putInt(COUNTER_KEY, counter);
+        saveInstanceState.putStringArrayList(ANSWERS_KEY, answers);
+
     }
 
 }

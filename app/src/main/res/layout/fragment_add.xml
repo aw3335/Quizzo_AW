@@ -256,7 +256,8 @@
         android:text="Add"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FollowUpFact"
-        tools:layout_editor_absoluteX="96dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FollowUpFact" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

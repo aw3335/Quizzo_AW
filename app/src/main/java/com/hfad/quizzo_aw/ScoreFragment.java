@@ -49,7 +49,6 @@ public class ScoreFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 }

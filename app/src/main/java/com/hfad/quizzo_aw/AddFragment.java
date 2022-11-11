@@ -30,17 +30,13 @@ public class AddFragment extends Fragment {
 
     private ArrayList<Question> quest;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         Spinner spinnerChoices = view.findViewById(R.id.spinnerChoices);
         Button btnAdd = view.findViewById(R.id.btnAdd);
-
         TextView Genre = view.findViewById(R.id.Genre);
         TextView followUp = view.findViewById(R.id.FollowUpFact);
         TextView Question = view.findViewById(R.id.Text);
@@ -53,11 +49,9 @@ public class AddFragment extends Fragment {
 
         ArrayList<String> choices = new ArrayList<String>();
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(!answer1.getText().toString().equals(""))
                 {
                     choices.add(answer1.getText().toString());
@@ -83,41 +77,35 @@ public class AddFragment extends Fragment {
                     choices.add(answer6.getText().toString());
                 }
 
-                if(choices.contains("")) {
-                    //Need an if statement to stop if not enough info provided.
+
+                String chosenAnswer = "";
+                if(spinnerChoices.getSelectedItem().toString().equals("Choice 1"))
+                {
+                    chosenAnswer = answer1.getText().toString();
+                }
+                else if(spinnerChoices.getSelectedItem().toString().equals("Choice 2"))
+                {
+                    chosenAnswer = answer2.getText().toString();
+                }
+                else if(spinnerChoices.getSelectedItem().toString().equals("Choice 3"))
+                {
+                    chosenAnswer = answer3.getText().toString();
+                }
+                else if(spinnerChoices.getSelectedItem().toString().equals("Choice 4"))
+                {
+                    chosenAnswer = answer4.getText().toString();
+                }
+                else if(spinnerChoices.getSelectedItem().toString().equals("Choice 5"))
+                {
+                    chosenAnswer = answer5.getText().toString();
                 }
                 else
                 {
-                    String chosenAnswer = "";
-                    if(spinnerChoices.getSelectedItem().toString().equals("Choice 1"))
-                    {
-                        chosenAnswer = answer1.getText().toString();
-                    }
-                    else if(spinnerChoices.getSelectedItem().toString().equals("Choice 2"))
-                    {
-                        chosenAnswer = answer2.getText().toString();
-                    }
-                    else if(spinnerChoices.getSelectedItem().toString().equals("Choice 3"))
-                    {
-                        chosenAnswer = answer3.getText().toString();
-                    }
-                    else if(spinnerChoices.getSelectedItem().toString().equals("Choice 4"))
-                    {
-                        chosenAnswer = answer4.getText().toString();
-                    }
-                    else if(spinnerChoices.getSelectedItem().toString().equals("Choice 5"))
-                    {
-                        chosenAnswer = answer5.getText().toString();
-                    }
-                    else
-                    {
-                        chosenAnswer = answer6.getText().toString();
-                    }
-                    quest = Database.addNewQuestions(Genre.getText().toString(), Question.getText().toString(), choices, chosenAnswer, followUp.getText().toString());
+                    chosenAnswer = answer6.getText().toString();
                 }
+                quest = Database.addNewQuestions(Genre.getText().toString(), Question.getText().toString(), choices, chosenAnswer, followUp.getText().toString());
 
                 String newGenre = Genre.getText().toString();
-
                 String[] genres = getResources().getStringArray(R.array.Genres);
 
                 for(int i = 0; i < genres.length; i++)
@@ -131,11 +119,9 @@ public class AddFragment extends Fragment {
                     test.add(quest.get(i).getGenre());
                 }
 
-
                 Navigation.findNavController(v).navigate(R.id.action_addFragment_to_addedFragment);
             }
         });
-
         return view;
     }
 }

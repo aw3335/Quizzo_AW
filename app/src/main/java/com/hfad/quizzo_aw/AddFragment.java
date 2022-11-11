@@ -113,7 +113,7 @@ public class AddFragment extends Fragment {
                     {
                         chosenAnswer = answer6.getText().toString();
                     }
-                    quest = Database.setData(Genre.getText().toString(), followUp.getText().toString(), Question.getText().toString(), choices, chosenAnswer);
+                    quest = Database.addNewQuestions(Genre.getText().toString(), Question.getText().toString(), choices, chosenAnswer, followUp.getText().toString());
                 }
 
                 String newGenre = Genre.getText().toString();

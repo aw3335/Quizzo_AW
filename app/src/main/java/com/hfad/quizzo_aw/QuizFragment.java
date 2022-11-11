@@ -33,6 +33,8 @@ public class QuizFragment extends Fragment {
     int counter = 0;
     ArrayList<String> answers = new ArrayList<String>();
 
+    public static final String QUESTIONNUM_KEY = "questionNum";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +57,10 @@ public class QuizFragment extends Fragment {
         ArrayList<Question> questions = getQuestions();
         ArrayList<Question> genreQuestions = new ArrayList<Question>();
 
+        if(savedInstanceState != null)
+        {
+            questionNum = savedInstanceState.getInt(QUESTIONNUM_KEY);
+        }
 
         System.out.println("Recieved Questions");
         System.out.println(chosenGenre);
@@ -136,6 +142,15 @@ public class QuizFragment extends Fragment {
         });
 
         return view;
+    }
+
+    protected void savedOnInstanceState(Bundle saveInstanceState)
+    {
+        super.onSaveInstanceState(saveInstanceState);
+
+        saveInstanceState.putInt(QUESTIONNUM_KEY, questionNum);
+
+
     }
 
     public void questionsCalled(String theChosenGenre, ArrayList<Question> genreQuestions, RadioButton radia1, RadioButton radia2, RadioButton radia3, RadioButton radia4, RadioButton radia5, RadioButton radia6, TextView tvNum, TextView tvQuest)

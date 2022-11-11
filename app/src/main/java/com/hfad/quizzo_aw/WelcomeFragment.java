@@ -33,6 +33,10 @@ public class WelcomeFragment extends Fragment {
         Button btnQuiz = view.findViewById(R.id.buttonPractice);
         Spinner spnGenre = view.findViewById(R.id.Genres);
 
+        if(savedInstanceState == null)
+        {
+            Database.setData();
+        }
 
 
        /* List<String> genres = Database.getAllGenres();
@@ -69,4 +73,6 @@ public class WelcomeFragment extends Fragment {
 
         return view;
     }
+
+
 }

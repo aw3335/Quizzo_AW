@@ -8,15 +8,12 @@ public class Database extends Question {
 
     private static ArrayList<Question> questions;
 
-    public static ArrayList<Question> setData(String Genre, String followUp, String Question, ArrayList<String> choices, String answer) {
+    public static ArrayList<Question> setData() {
         if (questions == null) {
 
             createData();
         }
-        else {
 
-            questions.add(new Question(Genre, Question, choices, answer, followUp));
-        }
         return questions;
     }
 
@@ -204,6 +201,13 @@ public class Database extends Question {
             }
         }
         return specificGenre;
+    }
+
+    public static ArrayList<Question> addNewQuestions(String genre, String question, ArrayList<String> choices, String answer, String followUp)
+    {
+        questions.add(new Question(genre, question, choices, answer, followUp));
+
+        return questions;
     }
 
 

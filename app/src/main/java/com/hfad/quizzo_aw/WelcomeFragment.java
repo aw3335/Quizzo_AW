@@ -29,7 +29,7 @@ public class WelcomeFragment extends Fragment {
 
         //The buttons and spinner from the fragment_welcome xml
         Button btnAdd = view.findViewById(R.id.buttonAdd);
-        Button btnQuiz = view.findViewById(R.id.buttonPractice);
+        Button btnQuiz = view.findViewById(R.id.buttonPractice); 
         Spinner spnGenre = view.findViewById(R.id.Genres);
 
         //If the application is loading for the first time, then load the hardcoded questions

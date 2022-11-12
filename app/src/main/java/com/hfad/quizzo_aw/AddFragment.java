@@ -22,12 +22,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddFragment#} factory method to
- * create an instance of this fragment.
+ * Author: Austin Weaver
+ * Add Fragment - Allows the user to enter in information and add a question to the question arraylist.
  */
 public class AddFragment extends Fragment {
 
+    //Creates new quest arraylist that will hold the questions
     private ArrayList<Question> quest;
 
     @Override
@@ -35,6 +35,8 @@ public class AddFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add, container, false);
+
+        //All the spinners, buttons, and text views from the fragment_add xml
         Spinner spinnerChoices = view.findViewById(R.id.spinnerChoices);
         Button btnAdd = view.findViewById(R.id.btnAdd);
         TextView Genre = view.findViewById(R.id.Genre);
@@ -47,11 +49,14 @@ public class AddFragment extends Fragment {
         TextView answer5 = view.findViewById(R.id.choice5);
         TextView answer6 = view.findViewById(R.id.choice6);
 
+        //Creates new arraylist the will hold all the choices for each question
         ArrayList<String> choices = new ArrayList<String>();
 
+        //When the user selects the add button, the program takes all entered information and creates a new question.
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //If any choice has not been filled out then dont add it to the choices arraylist
                 if(!answer1.getText().toString().equals(""))
                 {
                     choices.add(answer1.getText().toString());
@@ -77,8 +82,10 @@ public class AddFragment extends Fragment {
                     choices.add(answer6.getText().toString());
                 }
 
-
+                //Creates and sets the chosenAnswer to empty string
                 String chosenAnswer = "";
+
+                //Whatever option from the spinner is selected, make that the chosenAnswer
                 if(spinnerChoices.getSelectedItem().toString().equals("Choice 1"))
                 {
                     chosenAnswer = answer1.getText().toString();
@@ -103,22 +110,10 @@ public class AddFragment extends Fragment {
                 {
                     chosenAnswer = answer6.getText().toString();
                 }
+                //Once all information has been gather the program will add a new question to the database
                 quest = Database.addNewQuestions(Genre.getText().toString(), Question.getText().toString(), choices, chosenAnswer, followUp.getText().toString());
 
-                String newGenre = Genre.getText().toString();
-                String[] genres = getResources().getStringArray(R.array.Genres);
-
-                for(int i = 0; i < genres.length; i++)
-                {
-                    System.out.println(genres[i]);
-                }
-
-                ArrayList<String> test = new ArrayList<String>();
-                for(int i = 0; i < quest.size(); i++)
-                {
-                    test.add(quest.get(i).getGenre());
-                }
-
+                //Once the question has been added then more to the question added fragment
                 Navigation.findNavController(v).navigate(R.id.action_addFragment_to_addedFragment);
             }
         });

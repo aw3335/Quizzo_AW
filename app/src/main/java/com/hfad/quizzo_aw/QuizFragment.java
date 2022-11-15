@@ -1,7 +1,5 @@
 package com.hfad.quizzo_aw;
 
-import static com.hfad.quizzo_aw.Database.getQuestions;
-
 import android.content.Context;
 import android.os.Bundle;
 
@@ -58,7 +56,7 @@ public class QuizFragment extends Fragment {
         String chosenGenre = QuizFragmentArgs.fromBundle(requireArguments()).getChoice();
 
         //Stores all the questions from the database in the questions arraylist
-        ArrayList<Question> questions = getQuestions();
+        ArrayList<Question> questions = Database.setData().getQuestions();
         //Creates new arraylist that will hold all the questions of a specific genre
         ArrayList<Question> genreQuestions = new ArrayList<Question>();
 

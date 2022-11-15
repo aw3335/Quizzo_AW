@@ -29,17 +29,17 @@ public class WelcomeFragment extends Fragment {
 
         //The buttons and spinner from the fragment_welcome xml
         Button btnAdd = view.findViewById(R.id.buttonAdd);
-        Button btnQuiz = view.findViewById(R.id.buttonPractice); 
+        Button btnQuiz = view.findViewById(R.id.buttonPractice);
         Spinner spnGenre = view.findViewById(R.id.Genres);
 
         //If the application is loading for the first time, then load the hardcoded questions
         if(savedInstanceState == null)
         {
-            Database.setData();
+            Database.setData().loadDB();
         }
 
         //Creates new arraylist with all the genres in the database uniquely
-        ArrayList<String> genres = Database.getAllGenres();
+        ArrayList<String> genres = Database.setData().getAllGenres();
 
         //If the arraylist is not empty then fills the spinner with those genres
         if(!genres.isEmpty()) {

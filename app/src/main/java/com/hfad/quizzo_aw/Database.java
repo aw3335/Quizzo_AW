@@ -10,25 +10,31 @@ import java.util.ArrayList;
  */
 public class Database extends Question {
 
+    private static Database myOnlyDBOBJ;
     //Creates new questions arraylist that will hold questions
-    private static ArrayList<Question> questions;
+    private ArrayList<Question> questions;
 
     //If the arraylist is empty then fill the arraylist with the hardcoded questions else
     //just return the questions arraylist
-    public static ArrayList<Question> setData() {
-        if (questions == null) {
-            createData();
+    public static Database setData() {
+        if (myOnlyDBOBJ == null) {
+            myOnlyDBOBJ = new Database();
         }
-        return questions;
+        return myOnlyDBOBJ;
+    }
+
+    public void loadDB()
+    {
+        //Initiates the arrayList allowing questions to be added
+        questions = new ArrayList<Question>();
+        createData();
     }
 
     /**
      * Create Data function that fills the questions arraylist with hard coded questions
      */
-    private static void createData()
+    private void createData()
     {
-        //Initiates the arrayList allowing questions to be added
-        questions = new ArrayList<Question>();
 
         //For each question fill the choices arraylist and then generate a new question
         ArrayList<String> choices = new ArrayList<String>();
@@ -214,7 +220,7 @@ public class Database extends Question {
      * getQuestions function that returns the questions arraylist
      * @return the questions arraylist
      */
-    public static ArrayList<Question>getQuestions()
+    public ArrayList<Question>getQuestions()
     {
         System.out.println("Returning Questions");
         return questions;
@@ -224,7 +230,7 @@ public class Database extends Question {
      * getAllGenres loops through questions and stores each genre uniquely
      * @return the new arraylist with the unique genre
      */
-    public static ArrayList<String> getAllGenres()
+    public ArrayList<String> getAllGenres()
     {
         ArrayList<String> specificGenre = new ArrayList<String>();
 
@@ -247,7 +253,7 @@ public class Database extends Question {
      * @param followUp The follow up information about the question being asked
      * @return the arraylist of questions
      */
-    public static ArrayList<Question> addNewQuestions(String genre, String question, ArrayList<String> choices, String answer, String followUp)
+    public ArrayList<Question> addNewQuestions(String genre, String question, ArrayList<String> choices, String answer, String followUp)
     {
         questions.add(new Question(genre, question, choices, answer, followUp));
         return questions;

@@ -111,7 +111,7 @@ public class AddFragment extends Fragment {
                     chosenAnswer = answer6.getText().toString();
                 }
                 //Once all information has been gather the program will add a new question to the database
-                quest = Database.addNewQuestions(Genre.getText().toString(), Question.getText().toString(), choices, chosenAnswer, followUp.getText().toString());
+                quest = Database.setData().addNewQuestions(Genre.getText().toString(), Question.getText().toString(), choices, chosenAnswer, followUp.getText().toString());
 
                 //Once the question has been added then more to the question added fragment
                 Navigation.findNavController(v).navigate(R.id.action_addFragment_to_addedFragment);
